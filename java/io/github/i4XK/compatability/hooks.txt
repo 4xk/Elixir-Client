@@ -1,0 +1,22 @@
+// ALL HOOKS WILL BE PLACED HERE
+
+
+// THIS IS MANDATORY FOR UPDATING TO 1.13
+
+
+// MC VERSION 1.12.X IS JUST TO GET EVERYTHING SETUP
+
+
+Minecraft.java @init LN 617 :
+Client client = new Client();
+client.init();
+:
+
+GuiIngame.java @renderGameOverlay LN 246:
+
+ EventRenderHUD eventRenderHUD = new EventRenderHUD(partialTicks);
+        EventManager.call(eventRenderHUD);
+: //rendered 1 line above the check and render for horse jump
+
+
+Minecraft.java Key event.
