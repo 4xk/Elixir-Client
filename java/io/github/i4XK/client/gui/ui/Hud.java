@@ -6,7 +6,6 @@ import io.github.i4XK.client.events.EventRenderHUD;
 import io.github.i4XK.client.mod.Mod;
 import io.github.i4XK.client.mod.ModData;
 import io.github.i4XK.compatability.Wrapper;
-import it.unimi.dsi.fastutil.doubles.DoubleComparator;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -14,7 +13,6 @@ import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,8 +25,8 @@ public class Hud extends Mod {
     @EventTarget
     public void onRender(EventRenderHUD e) {
         GL11.glPushMatrix();
-        ScaledResolution sr = new ScaledResolution(Wrapper.INSTANCE.getMC());
-        GuiInventory.drawEntityOnScreen(sr.getScaledWidth() - 20,sr.getScaledHeight() - 10,20,1,1,Wrapper.INSTANCE.getPlayer());
+        ScaledResolution sr = new ScaledResolution(Wrapper.instance.getMC());
+        GuiInventory.drawEntityOnScreen(sr.getScaledWidth() - 20,sr.getScaledHeight() - 10,20,1,1,Wrapper.instance.getPlayer());
         GL11.glPopMatrix();
         GL11.glPushMatrix();
 
@@ -36,12 +34,12 @@ public class Hud extends Mod {
         String name = Client.INSTANCE.info.get("name");
         int xpos = 1;
         int xpos2 = 1;
-        Gui.drawRect(0, 0, Wrapper.INSTANCE.getFR().getStringWidth(name) + 1, 10, 0xee000000);
+        Gui.drawRect(0, 0, Wrapper.instance.getFR().getStringWidth(name) + 1, 10, 0xee000000);
         for (int i = 0; i < name.length(); i++) {
-            Wrapper.INSTANCE.getFR().drawString(name.charAt(i) + "", xpos, 1, getLogoRainbow(xpos * 1000000000, 1, 200).getRGB());
-            xpos += Wrapper.INSTANCE.getFR().getStringWidth(name.charAt(i) + "");
+            Wrapper.instance.getFR().drawString(name.charAt(i) + "", xpos, 1, getLogoRainbow(xpos * 1000000000, 1, 200).getRGB());
+            xpos += Wrapper.instance.getFR().getStringWidth(name.charAt(i) + "");
         }
-        for (int i = 0; i < Wrapper.INSTANCE.getFR().getStringWidth(name); i++) {
+        for (int i = 0; i < Wrapper.instance.getFR().getStringWidth(name); i++) {
             Gui.drawRect(xpos2, 9, xpos2 + 1, 10, getLogoRainbow((i * 1) * 1000000, 1, 200).getRGB());
             xpos2 += 1;
         }
@@ -55,30 +53,30 @@ public class Hud extends Mod {
 
         }
 
-        mods.sort(Comparator.comparingDouble(m -> -Wrapper. INSTANCE.getFR().getStringWidth(m.data.name) - Wrapper.INSTANCE.getFR().getStringWidth(m.data.name)));
+        mods.sort(Comparator.comparingDouble(m -> -Wrapper.instance.getFR().getStringWidth(m.data.name) - Wrapper.instance.getFR().getStringWidth(m.data.name)));
         for (Mod module : mods) {
             String str = module.data.name;
             String mod = str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-            ScaledResolution s = new ScaledResolution(Wrapper.INSTANCE.getMC());
-            int x = s.getScaledWidth() - Wrapper.INSTANCE.getFR().getStringWidth(mod);
+            ScaledResolution s = new ScaledResolution(Wrapper.instance.getMC());
+            int x = s.getScaledWidth() - Wrapper.instance.getFR().getStringWidth(mod);
             Gui.drawRect(x -4, y, x - 3, y + 12, getLogoRainbow(y * 10000, 1, 100).getRGB());
             Gui.drawRect(x - 3, y, x + s.getScaledWidth(), y + 12, 0x80000000);
             drawStringR(mod, x - 1, y + 3, y * 100000);
             y += 12;
         }
 
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7Ver: §r" + Client.INSTANCE.info.get("version"),1,20,getLogoRainbow(100000,1f,10000).getRGB());
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7MC: §r" + Client.INSTANCE.info.get("mc"),1,30,getLogoRainbow(100000,1f,10000).getRGB());
-        Gui.drawRect(1,40,Wrapper.INSTANCE.getFR().getStringWidth("§7MC: §r" + Client.INSTANCE.info.get("mc")) + 2,41,-1);
+        Wrapper.instance.getFR().drawStringWithShadow("§7Ver: §r" + Client.INSTANCE.info.get("version"),1,20,getLogoRainbow(100000,1f,10000).getRGB());
+        Wrapper.instance.getFR().drawStringWithShadow("§7MC: §r" + Client.INSTANCE.info.get("mc"),1,30,getLogoRainbow(100000,1f,10000).getRGB());
+        Gui.drawRect(1,39,Wrapper.instance.getFR().getStringWidth("§7MC: §r" + Client.INSTANCE.info.get("mc")) + 2,41,0xff808080);
 
-        int px = MathHelper.abs((int) Wrapper.INSTANCE.getPlayer().posX);
-        int py = MathHelper.abs((int) Wrapper.INSTANCE.getPlayer().posY);
-        int pz = MathHelper.abs((int) Wrapper.INSTANCE.getPlayer().posZ);
-        int fps = Wrapper.INSTANCE.getMC().getDebugFPS();
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7FPS: §r" + fps, 1, 42, getLogoRainbow(100000,1f,10000).getRGB());
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7X: §r" + px, 1, 52, getLogoRainbow(100000,1f,10000).getRGB());
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7Y: §r" + py, 1, 62, getLogoRainbow(100000,1f,10000).getRGB());
-        Wrapper.INSTANCE.getFR().drawStringWithShadow("§7Z: §r" + pz, 1, 72, getLogoRainbow(100000,1f,10000).getRGB());
+        int px = MathHelper.abs((int) Wrapper.instance.getPlayer().posX);
+        int py = MathHelper.abs((int) Wrapper.instance.getPlayer().posY);
+        int pz = MathHelper.abs((int) Wrapper.instance.getPlayer().posZ);
+        int fps = Wrapper.instance.getMC().getDebugFPS();
+        Wrapper.instance.getFR().drawStringWithShadow("§7FPS: §r" + fps, 1, 42, getLogoRainbow(100000,1f,10000).getRGB());
+        Wrapper.instance.getFR().drawStringWithShadow("§7X: §r" + px, 1, 52, getLogoRainbow(100000,1f,10000).getRGB());
+        Wrapper.instance.getFR().drawStringWithShadow("§7Y: §r" + py, 1, 62, getLogoRainbow(100000,1f,10000).getRGB());
+        Wrapper.instance.getFR().drawStringWithShadow("§7Z: §r" + pz, 1, 72, getLogoRainbow(100000,1f,10000).getRGB());
 
 
     }
@@ -95,8 +93,8 @@ public class Hud extends Mod {
         int xpos = x;
         for (int i = 0; i < t.length(); i++) {
             String s = t.charAt(i) + "";
-            Wrapper.INSTANCE.getFR().drawStringWithShadow(s, xpos, y, getLogoRainbow(o * i, 1, 200).getRGB());
-            xpos += Wrapper.INSTANCE.getFR().getStringWidth(s);
+            Wrapper.instance.getFR().drawStringWithShadow(s, xpos, y, getLogoRainbow(o * i, 1, 200).getRGB());
+            xpos += Wrapper.instance.getFR().getStringWidth(s);
         }
     }
 }
